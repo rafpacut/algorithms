@@ -1,7 +1,8 @@
-// za wolne - obadaj fstream
+//cout,cin za wolne trzeba bylo uzyc printf'a 
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include <stdio.h>
 using namespace std;
 
 int d;
@@ -24,8 +25,10 @@ void tnij()
 		ciecia = n;
 	}
 	odl = (M_PI*d)/ (ciecia*2);
-	cout	<<odl<<" "
+/*	cout	<<odl<<" "
 		<<ciecia<<'\n';
+*/
+	printf ("%.3f %d\n",odl,ciecia);
 }
 
 int main()
