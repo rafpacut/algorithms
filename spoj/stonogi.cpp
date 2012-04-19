@@ -1,3 +1,4 @@
+// nie ma ograniczenia kwadratu na ktorym toczy sie rozgrywka
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -22,16 +23,16 @@ void porownaj_czasy()
         }
         else if ( tmin[1] <= tmin[0] && tmax[1] >= tmax[0] )
         {
-                cout <<"TAK/n";
+                cout <<"TAK\n";
         }
         else
-                cout <<"NIE/n";
+                cout <<"NIE\n";
 
 }
 
 void oblicz_czasy()
 {
-        odlk = sqrt( (dx[0]*dx[0])+( dy[0]*dy[0] ));
+        odlk = sqrt( (dx[0]*dx[0])+( dy[0]*dy[0] ));        
         odll = sqrt(  ( dx[1]*dx[1] )+( dy[1]*dy[1]) );
         tmin[0] = (k*odlk )/ v1;
         tmin[1] = (l*odll)/v2;
@@ -58,12 +59,20 @@ void obl_dx_dy()
 
 void read()
 {
-        for( int i = 0 ; i < 4 ; i++ )
-        {
-                cin >> x[i];
-                cin >> y[i];
-        }
-        cin >> v1 >> v2;
+	for( int i = 0; i < 4; i++ )
+	{
+		cin >> x[i]
+		    >> y[i];
+		if( i == 1 )
+		{
+			cin >> v1;
+		}
+		if( i == 3 )
+		{
+			cin >> v2;
+		}
+		
+	}
 }
 
 int main()
