@@ -1,4 +1,3 @@
-// nie ma ograniczenia kwadratu na ktorym toczy sie rozgrywka
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -10,10 +9,14 @@ int tmin[2];
 int tmax[2];
 int odlk, odll;
 int v1,v2;
-
+const int plac = pow(10,5);
 void porownaj_czasy()
 {
-        if(tmin[1] <= tmax[0] && tmin[1] >= tmin[0])
+	if( k*odlk > plac || l*odll > plac )
+	{
+		cout<<"NIE\n";
+	}
+        else if(tmin[1] <= tmax[0] && tmin[1] >= tmin[0])
         {
                 cout <<"TAK\n";
         }
