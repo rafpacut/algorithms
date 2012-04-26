@@ -9,24 +9,29 @@ int tmin[2];
 int tmax[2];
 int odlk, odll;
 int v1,v2;
-const int plac = pow(10,5);
+const int plac1 = pow(10,5);
+const int plac2 = pow(-10,5);
 void porownaj_czasy()
 {
-	if( k*odlk > plac || l*odll > plac )
+	if(k*dx[0] > plac1 || k*dx[0] < plac2 || k*dy[0] > plac1 || k*dy[0] < plac2)
 	{
 		cout<<"NIE\n";
 	}
-        else if(tmin[1] <= tmax[0] && tmin[1] >= tmin[0])
+	else if( l*dx[1] > plac1 || l*dx[1] < plac2 || l*dy[1] > plac1 || l*dy[1] < plac2 )
+	{
+		cout <<"NIE\n";
+	}
+        else if( tmax[0] <= tmax[1] && tmax[0] >= tmin[1] )
         {
-                cout <<"TAK\n";
+        	cout <<"TAK\n";
         }
-        else if( tmax[1] <= tmax[0] && tmax [1] >= tmin[1] )
+        else if( tmin[0] >= tmin[1] && tmin[0] <= tmax[1] )
         {
-                cout <<"TAK\n";
+        	cout<<"TAK\n";
         }
-        else if ( tmin[1] <= tmin[0] && tmax[1] >= tmax[0] )
+        else if( tmin[0] <= tmin[1] && tmax[0] >= tmax[1] )
         {
-                cout <<"TAK\n";
+        	cout<<"TAK\n";	
         }
         else
                 cout <<"NIE\n";
