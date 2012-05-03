@@ -1,49 +1,65 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
-float srednia = 0; // srednia wydatkow wycieczki
-int n; // ilosc uczestnikow wycieczki
-float t[20];
+#define pb push_back
+int n; // number of all students
+double average = 0.0; // the average of all student's expences
+vector<double> expences; // all student's expences
+
 
 bool read()
 {
+	double h;
 	cin >> n;
-	if ( n == 0 )
+	if ( n != 0 )
 	{
-		return false;
+		for( int i = 0 ; i < n ; i++ )
+		{
+			cin >> h;
+			expences.pb(h);
+		}
+		return true;
 	}
-	for( int i = 0 ; i < n ; i++ )
-	{
-		cin >> t[i];
-	}
-	return true;
+	return false;
 }
 
-void licz_srednia()
+void count_average()
 {
-	for( int i = 0 ; i < n ; i++ )
-		srednia += t[i];
-	srednia /= n;
-	cout <<"srednia: "<<srednia<<'\n';
+	for ( int i = 0 ; i < expences.size() ; i++ )
+	{
+		average += expences[i];
+	}
+	average /= n;
 }
 
-void licz_roznice_od_sredniej()
+double count_min()
 {
-	float roznica = 0;
-	for( int i = 0 ; i < n ; i++ )
+	double min;
+	for( int i = 0 ; i < expences.size() ; i++ )
 	{
-		roznica += ( t[i] - srednia );
-		cout <<"roznica: "<< roznica<< '\n';
+		if( expences[i] >= average )
+			break;
+		min += ( average - expences[i] );
+		min *= 100;
+		min = int(min);
+		min /= 100;
 	}
+	return min;
 }
 
 int main()
 {
 	ios_base::sync_with_stdio(0);
-	while ( read() )
+	while( read() )
 	{
-		licz_srednia();
-		licz_roznice_od_sredniej();
-		srednia = 0;
+		count_average();
+		sort(expences.begin(),expences.end());
+		cout.precision(2);
+		cout << fixed 
+			<< count_min() <<'\n';
+		expences.erase(expences.begin(),expences.end());
 	}
 }
