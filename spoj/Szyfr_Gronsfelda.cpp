@@ -8,7 +8,7 @@ using namespace std;
 
 string kod, zadanie;
 
-int d = int('Z')-int('A')+1;
+const int d = int('Z')-int('A')+1;
 
 
 
@@ -47,7 +47,6 @@ int main()
 			s += (kod[p]-48);
 
 			if( s > 'Z' )
-
 				s -= d;
 
 			if( p == kod.length()-1 )
@@ -83,5 +82,5 @@ int main()
 		}	
 
 	}
-
+cout <<'\n';
 }

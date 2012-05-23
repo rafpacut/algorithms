@@ -6,7 +6,7 @@ using namespace std;
 
 #define pb push_back
 int n; // number of all students
-double average = 0.0; // the average of all student's expences
+double average = 0.0; // the average of all student's expences , second thought : where do we zero the average after 1 cycle ?
 vector<double> expences; // all student's expences
 
 
