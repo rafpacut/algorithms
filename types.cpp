@@ -10,7 +10,6 @@ typedef int digit;
 typedef int number;
 
 int sum;
-
 // 1121231234
 // ...101112
 struct orig_seq
@@ -25,7 +24,7 @@ struct monotonic_seq
   monotonic_seq(int n, int p) : n(n), p(p)  {}
   int n; // ostatnia liczba w ciagu (w przykladzie jest to 10
   int p;
-};
+}ms(0,0);
 
 int len(int n)
 {
@@ -76,10 +75,10 @@ int number_longitude(int p)
       i++;
       sum += 9*pow(10,i-1);
     }
-  //  p-= sum;
-  p -= 9*pow(10,i-2);
+  //  cout <<"pozycja tuz przed odjeciem :"<<p<<'\n';
+  ms.p -= 9*pow(10,i-2);
   cout <<"dlugosc liczb wsrod ktorych znajduje sie argument: "<<i<<'\n';
-  cout <<"pozycja wsrod liczb i-dlugich: "<<p<<'\n';
+  cout <<"pozycja wsrod liczb i-dlugich: "<<ms.p<<'\n';
   return i;
 }
 
@@ -100,6 +99,7 @@ int get_number(int p,int i)
     return floor(p/i) + pow(10,i-1);
 }
 
+
 void test_get_number()
 {
   assert(get_number(8,2) == 14);
@@ -107,6 +107,11 @@ void test_get_number()
   assert(get_number(2,3) == 100);
 }
 
+
+int get_digit()
+{
+  
+}
 
 int read()
 {
@@ -120,12 +125,11 @@ int main()
   test_number_longitude();
   test_get_number();
   test_len();
-
   
   int p = read();
-  monotonic_seq ms = f(p);
+  ms = f(p);
   int i = number_longitude(ms.p);
-  cout <<  get_number(ms.p,i)<<'\n';;
+  cout <<get_digit(get_number(ms.p,i))<<'\n';
   
   return 0;
 }
