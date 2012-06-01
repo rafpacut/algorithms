@@ -1,31 +1,15 @@
-//#define NDEBUG
-
-#include <iostream>
+#include<iostream>
 #include <cassert>
 #include <cmath>
 using namespace std;
 
-typedef int position;
-typedef int digit;
-typedef int number;
+int position;
 
-int sum;
-int p;
-// 1121231234
-// ...101112
-struct orig_seq
-{
-  number n; // ostatnia liczba w oryginalnym ciągu to 4, 12
-  number suma; // suma cyfr do tej pory  
-}n;
 
-// 12345678910
-struct monotonic_seq
+void read()
 {
-  monotonic_seq(int n) : n(n)  {}
-  int n; // ostatnia liczba w ciagu (w przykladzie jest to 10
-  //  int p;
-}ms(0);
+  cin >> position;
+}
 
 int len(int n)
 {
@@ -38,118 +22,67 @@ int len(int n)
   return i;
 }
 
-void test_len()
-{
-  assert(len(10) == 2);
-  assert(len(5) == 1);
-  assert(len(199) == 3);
-}
-
-int f( position p) // z oryginalnego ciagu tworzymy monotoniczny
+int mon(int p)
 {
   int dl = 2;
-  number c1= 0,c2= 1;
+  int c1 = 0;
+  int c2 = 1;
   int i;
-  while(0==0)
+  while(0 == 0)
   {
-    if( c1 <= p && p <= c2 )
-      break;
-    
+    if( c1 <= p && p <= c2)
+        break;
     i = c2;
     c2 += (c2 - c1) + len(dl);
     c1 = i;
-     dl++;
-   
+    dl++;
   }
-  p -= c1;
-  cout <<"pozycja w monotonicznym ciagu: "<<p<<'\n';
-  cout << "ilosc cyfr w monotonicznym ciagu: "<<c2-c1<<'\n';
-  //  return c2-c1;
-  return p;
+  position -= c1; // position in monotonic sequence
+  return c2-c1;// number of digits in -||-
 }
 
-void test_f()
+void test_mon()
 {
-  assert(f(8)== 2);
-  assert(f(6)== 3);
-  assert(f(26)== 5);
-  assert(f(44)== 8);
-  assert(f(55)== 10);
-  assert(f(56)== 11);
-  assert(f(57)== 1);
+  assert(mon(10) == 4);
+  assert(mon(4) == 3);
+  assert(mon(44)== 9);
+  assert(mon(45)==9);
+  assert(mon(55)==11);
 }
 
-int number_longitude(int p)
+int get_length(int p)
 {
-  int i = 1;
-  int sum = 9*pow(10,i-1);
-  while(sum < p)
-    {
-      i++;
-      sum += 9*pow(10,i-1);
-    }
-  cout << "int(9*pow(10,i-2): "<<int(9*pow(10,i-2))<<'\n';
-  p -= int(9*pow(10,i-2));
-   cout <<"dlugosc liczb wsrod ktorych znajduje sie argument: "<<i<<'\n';
-   cout <<"pozycja wsrod liczb i-dlugich: "<<p<<'\n';
-  return i;
+  int m = 1;
+  int digit_nr = 1;
+  int length = 0;
+    while (length < position)
+      {
+        length = length + 9 * m * digit_nr;
+        digit_nr++;
+        m = 10 * m;
+      }
+  return digit_nr-1;
 }
 
-void test_number_longitude()
+int get_number(int length)
 {
-  assert(number_longitude(99) == 2);
-  assert(number_longitude(175) == 3);
-  assert(number_longitude(8923) == 4);
-}
-
-int get_number(int p,int i)
-{
-  if(i == 1)
-    {
-      cout << "floor(p/i): "<<floor(p/i)<<'\n';
-      return floor(p/i);
-    }
-  else
-    {
-      cout << "floor(p/i): "<<floor(p/i)<<'\n';
-      cout << pow(10,i-1)<<'\n';
-      return floor(p/i) + pow(10,i-1);
-    }
-}
-
-
-void test_get_number()
-{
-  assert(get_number(45,2) == 9);
-  assert(get_number(8,2) == 14);
-  assert(get_number(6,1) == 6);
-  assert(get_number(2,3) == 100);
-}
-
-
-int get_digit()
-{
-  
-}
-
-int read()
-{
-  int g;
-  cin >> g;
-  return g;
+  position -= pow(10,length-1)-1;
+  cout <<"position: "<<position<<'\n';
+  cout <<position/length<<" number"<<'\n';
+  cout <<"and the number is: "<< (position/length) + pow(10,length-1)-1<<'\n';
 }
 
 int main()
 {
-  //  test_f();
-  test_number_longitude();
-  test_get_number();
-  test_len();
+  test_mon();
+  int last_digit;
+  int length;
+  read();
+  cout <<"position before monotonic seq: "<< position<<'\n';
+  last_digit = mon(position);
+  cout <<"position in monotonic seq: "<<position<<'\n';
+  length = get_length(position);
+  cout <<length<<'\n';
+  get_number(length); 
   
-  int p = read();
-  int position = f(p);
-  int i = number_longitude(p);
-  cout <</*get_digit(*/get_number(p,i)/*)*/<<'\n';
-  
-  return 0;
 }
