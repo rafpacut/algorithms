@@ -67,23 +67,34 @@ int get_length(int p)
 int get_number(int length)
 {
   position -= pow(10,length-1)-1;
-  cout <<"position: "<<position<<'\n';
-  cout <<ceil(double(position)/double(length))<<" number"<<'\n';
-  cout <<"and the number is: "<< ceil(double(position)/double(length)) + pow(10,length-1)-1<<'\n';
+  return ceil(double(position)/double(length))+pow(10,length-1)-1;
+}
+
+void get_digit(int number,int length)
+{
+  if( length < 10 )
+    cout <<number<<'\n';
+  else
+    {
+      while( position != length )
+        {
+          number /= 10;
+          length --;
+        }
+      cout << number%10<<'\n';
+    }
 }
 
 int main()
 {
   test_mon();
-  cout <<ceil(1.0/2.0)<<'\n';
   int last_digit;
   int length;
+  int number;
   read();
-  cout <<"position before monotonic seq: "<< position<<'\n';
   last_digit = mon(position);
-  cout <<"position in monotonic seq: "<<position<<'\n';
   length = get_length(position);
-  cout <<length<<'\n';
-  get_number(length); 
+  number = get_number(length);
+  get_digit(number,length);
   
 }
