@@ -68,13 +68,14 @@ int get_number(int length)
 {
   position -= pow(10,length-1)-1;
   cout <<"position: "<<position<<'\n';
-  cout <<position/length<<" number"<<'\n';
-  cout <<"and the number is: "<< (position/length) + pow(10,length-1)-1<<'\n';
+  cout <<ceil(double(position)/double(length))<<" number"<<'\n';
+  cout <<"and the number is: "<< ceil(double(position)/double(length)) + pow(10,length-1)-1<<'\n';
 }
 
 int main()
 {
   test_mon();
+  cout <<ceil(1.0/2.0)<<'\n';
   int last_digit;
   int length;
   read();
