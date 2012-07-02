@@ -15,8 +15,8 @@ struct node
 vector<node> grid;
 stack<int> s;
 int grid_side;
-bool hill;
-bool valley;
+bool hill = false;
+bool valley = false;
 int hill_total;
 int valley_total;
 
@@ -252,13 +252,24 @@ void make_a_field(int start_x, int start_y)
 	}
 	//a hill or a valley ?
 	
-	if( hill != valley )
+/*	if( hill != valley )
 	{
 		if( valley )
 			valley_total += 1;
 		else
 			hill_total += 1;
 	}
+*/	
+	if ( !valley && !hill )
+	{
+		valley_total += 1;
+		hill_total += 1;
+	}
+	if( !valley && hill )
+		hill_total += 1;
+	if( valley && !hill )
+		valley_total += 1;
+		
 	
 	hill = 0;
 	valley = 0;
