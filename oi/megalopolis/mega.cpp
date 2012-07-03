@@ -4,7 +4,7 @@
 #include <queue>
 using namespace std;
 
-#define D(a)
+#define D(a) 
 #define E(a) cout << a << '\n'
 
 struct node
@@ -75,6 +75,11 @@ void wroc( node* end )
 
 void wyprawa( int end )
 {
+	if( end == 0 )
+	{
+		cout <<"0"<<'\n';
+		return;
+	}
 	nodes[0].parent = 0;
 	queue<node*> q;
 	q.push(&nodes[0]);
