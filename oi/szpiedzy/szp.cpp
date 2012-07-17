@@ -1,131 +1,118 @@
 #include <iostream>
-#include <vector>
+#include <map>
 #include <queue>
+#include <cmath>
 using namespace std;
 
-#define D(a) ;
+#define D(a)
+#define E(a) a
+
 struct node
 {
-	node():mission(false),visited(false){}
+	node():mission(false), traced_by(0){}
 	bool mission;
-	bool visited;	
-	int number;
-	node* traced;
-	vector<node*> traced_by;
+	int traced; // indeks
+	int traced_by;
 };
 
-typedef vector<node>::iterator n_it;
-typedef vector<node*>::iterator np_it;
+typedef map<int,node>::iterator n_it;
 
-vector<node> nodes;
+map<int,node> nodes;
 int licznik = 0;
 
 void read()
 {
 	int n;
 	cin >> n;
-	nodes.resize( n );
-	for( int i = 0 ; i < n ; i++ ) nodes[i].number = i+1;
 	for( int i = 0 ; i < n ; i++ )
 	{
 		int a;
 		cin >> a;
-		a--;
-		nodes[i].traced = &nodes[a];
-		nodes[a].traced_by.push_back( &nodes[i] );
+		nodes[i+1].traced = a;
+		nodes[a].traced_by++;
 	}
 }
 
-void print()
+void flag( int start )
+{
+	cout << "aatempt to erase " << start << endl;
+	nodes.erase(start);
+	nodes[nodes[start].traced].traced_by--;
+	
+	if(!nodes[nodes[start].traced].mission)
+	{
+		nodes[nodes[start].traced].mission = true;
+		nodes.erase(nodes[start].traced);
+		nodes[nodes[nodes[start].traced].traced].traced_by--;
+		licznik++;
+	}
+}
+
+int get_not_traced()
 {
 	for( n_it it = nodes.begin() ; it != nodes.end() ; it++ )
 	{
-		cout << "node : "<<it->number<<"traces: "<<it->traced->number<<'\n';
-	}
-}
-
-void r_print()
-{
-	cout <<"r print\n";
-	for( n_it it = nodes.begin() ; it != nodes.end() ; it++ )
-	{
-		cout <<"node: "<<it->number<<'\n';
-		for(np_it it2 = it->traced_by.begin() ; it2 != it->traced_by.end() ; it2++ )
+		if( it->second.traced_by == 0 && !it->second.mission)
 		{
-			cout <<(*it2)->number<<" ";
-		}
-		cout <<'\n';
-	}
-}
-
-
-
-void flag( node* start )
-{
-	queue<node*> q;
-	start->visited = true;
-	q.push( start->traced );
-	node* previous = start;
-	while( !q.empty() )
-	{
-		node* actual = q.front();
-		D(cout <<"teraz przetwarzany: "<< actual->number<<'\n' )
-		q.pop();
-		if( !actual->visited )
-		{
-			if( !previous->mission )
-			{
-				D( cout << "mission: "<<actual->number<<'\n')
-				actual->visited = true;
-				actual->mission = true;
-				previous = actual;
-				q.push( actual->traced );
-			}
-			else
-			{
-				actual->visited = true;
-				previous = actual;
-				q.push( actual->traced );
-			}								
+			return it->first;
 		}
 	}
+	return 0;
 }
 
-node* get_not_traced()
+int get_from_cycle()
 {
-	for( n_it it = nodes.begin() ; it != nodes.end() ; it++ )
+	if(nodes.empty())
+		return 0;
+	else
+		return nodes.begin()->first;
+}
+
+void flag_cycle( int start )
+{
+	int vertices = 1;
+	int actual = nodes[start].traced;
+	while( actual != start )
 	{
-		if( it->traced_by.empty() && !it->visited)
-		{
-			D(cout<<"zaczynamy z: "<<it->number<<'\n')
-			return &(*it);
-		}
+		vertices++;
+		actual = nodes[actual].traced;
+		nodes.erase(actual);
 	}
-	return &(*nodes.end());
+	licznik += vertices / 2;
+}
+
+void process_cycles()
+{
+	while(true)
+	{
+		int start = get_from_cycle();
+		if( start != 0 )
+		{
+			flag_cycle( start );
+		}
+		else
+			break;
+	}
 }
 
 void algorithm()
 {
-	for( n_it it = nodes.begin() ; it != nodes.end() ; it++ )
+	while(true)
 	{
-		node* start = get_not_traced();
-		if( start != &(*nodes.end()) )
+		int start = get_not_traced();
+		if( start != 0 )
 		{
+		cout << "flag from: " << start  << '\n';
 			flag( start );
+			cout << nodes.size() << endl;
 		}
 		else
 		{
-			flag( &(*it) );
+		E(cout << "PROCESS_CYCLES\n";)
+			process_cycles();
+			break;
 		}
 	}
-	for( n_it it = nodes.begin() ; it != nodes.end() ; it++ )
-	{
-		if( it->mission )
-		{
-			D( cout <<"mission node: "<<it->number<<endl )
-			licznik++;
-		}
-	}	
 	cout<<licznik<<'\n';
 }
 
