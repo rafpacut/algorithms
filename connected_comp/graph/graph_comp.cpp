@@ -1,4 +1,3 @@
-//dla drzew
 #include <iostream>
 #include <vector>
 #include <queue>
